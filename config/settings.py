@@ -9,7 +9,12 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 INSTALLED_APPS = ['django.contrib.contenttypes','django.contrib.auth','rest_framework','rest_framework_simplejwt','accounts','tasks']
 MIDDLEWARE = []
 ROOT_URLCONF = 'config.urls'
-TEMPLATES = []
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': [],
+    'APP_DIRS': True,
+    'OPTIONS': {'context_processors': []},
+}]
 WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {'default': {'ENGINE':'django.db.backends.postgresql','NAME':os.getenv('DB_NAME','labs1'),'USER':os.getenv('DB_USER','postgres'),'PASSWORD':os.getenv('DB_PASSWORD',''),'HOST':os.getenv('DB_HOST','127.0.0.1'),'PORT':os.getenv('DB_PORT','5432')}}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
