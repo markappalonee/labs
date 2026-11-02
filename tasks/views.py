@@ -13,7 +13,10 @@ class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     def get_queryset(self): return member_projects(self.request.user).annotate(total=Count('task', distinct=True))
     def perform_create(self, serializer):
-        owner = User.objects.get(username=self.request.user.username)
+        owner, _ = User.objects.get_or_create(
+            username=self.request.user.username,
+            defaults={'email': f'{self.request.user.username}@example.com'},
+        )
         project = serializer.save(owner=owner)
         Membership.objects.create(user=owner, project=project, role='ADMIN')
     def get_permissions(self): return [ProjectAdmin()] if self.action in ['destroy','update','partial_update'] else [ProjectMember()]
