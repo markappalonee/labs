@@ -6,7 +6,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-only-change-me')
 DEBUG = os.getenv('DJANGO_DEBUG', '1') == '1'
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-INSTALLED_APPS = ['django.contrib.contenttypes','django.contrib.auth','rest_framework','accounts','tasks']
+INSTALLED_APPS = ['django.contrib.contenttypes','django.contrib.auth','rest_framework','rest_framework_simplejwt','accounts','tasks']
 MIDDLEWARE = []
 ROOT_URLCONF = 'config.urls'
 TEMPLATES = []
@@ -15,3 +15,4 @@ DATABASES = {'default': {'ENGINE':'django.db.backends.postgresql','NAME':os.gete
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 USE_TZ = True
 TIME_ZONE = 'Asia/Bishkek'
+REST_FRAMEWORK = {'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',), 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',), 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination', 'PAGE_SIZE': 10}
