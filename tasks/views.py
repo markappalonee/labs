@@ -7,7 +7,7 @@ from .permissions import ProjectMember, ProjectAdmin
 from .serializers import ProjectSerializer, TaskSerializer
 
 def member_projects(user):
-    return Project.objects.filter(memberships__user__username=user.username).distinct()
+    return Project.objects.filter(membership__user__username=user.username).distinct()
 
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
