@@ -1,0 +1,8 @@
+from django.db import models
+class User(models.Model):
+    username=models.CharField(max_length=150, unique=True)
+    email=models.EmailField(unique=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table='lab.users'
+        managed=False
