@@ -14,14 +14,14 @@ class TaskSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at']
     def validate_title(self, value):
         value = value.strip()
-        if len(value) < 3: raise serializers.ValidationError('title must contain at least 3 characters')
+        if len(value) < 3: raise serializers.ValidationError('название должно содержать минимум 3 символа')
         return value
     def validate(self, attrs):
         request = self.context.get('request')
         project = attrs.get('project') or getattr(self.instance, 'project', None)
         assignee = attrs.get('assigned_to', getattr(self.instance, 'assigned_to', None))
         if project and assignee and not Membership.objects.filter(project=project, user=assignee).exists():
-            raise serializers.ValidationError({'assigned_to':'user must be a project member'})
+            raise serializers.ValidationError({'assigned_to':'пользователь должен быть участником проекта'})
         if request and project and not Membership.objects.filter(project=project, user__username=request.user.username).exists():
-            raise serializers.ValidationError({'project':'project is not accessible'})
+            raise serializers.ValidationError({'project':'проект недоступен пользователю'})
         return attrs
