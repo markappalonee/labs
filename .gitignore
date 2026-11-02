@@ -7,3 +7,4 @@ db.sqlite3
 .idea/**/tasks.xml
 .idea/**/usage.statistics.xml
 .idea/**/shelf/
+.idea/
