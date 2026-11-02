@@ -35,9 +35,16 @@
   <section class="card"><h2>Мои проекты</h2><div id="projects" class="muted">Войдите, чтобы загрузить проекты.</div></section>
 <script>
 const api='/api/';
+const usernameInput=document.getElementById('username');
+const passwordInput=document.getElementById('password');
+const nameInput=document.getElementById('name');
+const descriptionInput=document.getElementById('description');
+const authMessage=document.getElementById('authMessage');
+const projectMessage=document.getElementById('projectMessage');
+const projects=document.getElementById('projects');
 function token(){return localStorage.getItem('access')}
 async function login(){
-  const r=await fetch('/api/token/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});
+  const r=await fetch('/api/token/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:usernameInput.value,password:passwordInput.value})});
   const d=await r.json(); if(!r.ok){authMessage.textContent='Ошибка входа: '+JSON.stringify(d);return}
   localStorage.setItem('access',d.access); authMessage.textContent='Вход выполнен'; loadProjects();
 }
@@ -48,7 +55,7 @@ async function loadProjects(){
   projects.innerHTML=d.results?.length?d.results.map(p=>`<div class="project"><b>${p.name}</b><br>${p.description||''}</div>`).join(''):'Проектов пока нет.';
 }
 async function createProject(){
-  projectMessage.textContent=''; const r=await fetch(api+'projects/',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token()},body:JSON.stringify({name:name.value,description:description.value})});
-  const d=await r.json(); if(!r.ok){projectMessage.textContent='Ошибка: '+JSON.stringify(d);return} name.value='';description.value='';loadProjects();
+  projectMessage.textContent=''; const r=await fetch(api+'projects/',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token()},body:JSON.stringify({name:nameInput.value,description:descriptionInput.value})});
+  const d=await r.json(); if(!r.ok){projectMessage.textContent='Ошибка: '+JSON.stringify(d);return} nameInput.value='';descriptionInput.value='';loadProjects();
 }
 </script></main></body></html>
