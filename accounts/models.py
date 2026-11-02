@@ -4,5 +4,4 @@ class User(models.Model):
     email=models.EmailField(unique=True)
     created_at=models.DateTimeField(auto_now_add=True)
     class Meta:
-        db_table='lab.users'
-        managed=False
+        db_table='lab_users'
