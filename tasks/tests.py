@@ -1,6 +1,7 @@
 from django.test import TestCase
 from accounts.models import User
 from .models import Project, Membership, Task
+from .services import transfer_project_ownership
 
 class Lab1ModelTests(TestCase):
     def setUp(self):
@@ -15,3 +16,10 @@ class Lab1ModelTests(TestCase):
     def test_task_status_choices_exist(self):
         task = Task.objects.create(project=self.project, title='Build API')
         self.assertEqual(task.status, Task.Status.TODO)
+
+    def test_transfer_ownership_updates_project_and_membership(self):
+        new_owner = User.objects.create(username='bob', email='bob@example.test')
+        transfer_project_ownership(self.project.id, new_owner.id)
+        self.project.refresh_from_db()
+        self.assertEqual(self.project.owner_id, new_owner.id)
+        self.assertEqual(Membership.objects.get(user=new_owner, project=self.project).role, 'ADMIN')
